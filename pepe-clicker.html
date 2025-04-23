@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pepe Clicker</title>
+    <link rel="icon" href="./img/normal-pepe.png" type="image/png">
+    <style>
+        body, html, * {
+            cursor: url('./img/funny-pac-small.png'), pointer !important;
+        }
+        
+        :root {
+            --main-bg-color: #5fa8d3; /* Lighter blue */
+            --pepe-green: #4a7c2a; /* Darker green for title */
+            --pepe-darker: #3a5e1f;
+            --text-color: #ffffff; /* Pure white text */
+            --panel-bg: #6d4c41; /* Darker wood color */
+            --panel-dark: #4e342e; /* Very dark wood */
+            --panel-light: #8d6e63; /* Medium wood */
+            --wood-image: url('./img/wood.jpg');
+            --button-hover: #87ceeb; /* Sky blue */
+            --panel-border: #ffffff; /* White borders for cloud effect */
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background-color: #87ceeb;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='500' height='300' viewBox='0 0 500 300'%3E%3Cpath fill='%23ffffff' d='M105.1,70.1c-3.1-6.8-9.8-11.6-17.6-11.6c-7.1,0-13.4,3.8-16.7,9.5c-2.1-1.1-4.4-1.8-6.9-1.8c-7.9,0-14.3,6.3-14.4,14.2c-0.1,2.3,0.4,4.4,1.2,6.3C47.9,89.6,46,93.4,46,97.6c0,9.8,8,17.8,17.8,17.8h49.9c9.8,0,17.8-8,17.8-17.8C131.6,85.6,119.7,76.7,105.1,70.1z'/%3E%3Cpath fill='%23ffffff' d='M425.1,210.1c-3.1-6.8-9.8-11.6-17.6-11.6c-7.1,0-13.4,3.8-16.7,9.5c-2.1-1.1-4.4-1.8-6.9-1.8c-7.9,0-14.3,6.3-14.4,14.2c-0.1,2.3,0.4,4.4,1.2,6.3c-2.8,2.9-4.7,6.7-4.7,10.9c0,9.8,8,17.8,17.8,17.8h49.9c9.8,0,17.8-8,17.8-17.8C451.6,225.6,439.7,216.7,425.1,210.1z'/%3E%3Cpath fill='%23ffffff' d='M345.1,40.1c-3.1-6.8-9.8-11.6-17.6-11.6c-7.1,0-13.4,3.8-16.7,9.5c-2.1-1.1-4.4-1.8-6.9-1.8c-7.9,0-14.3,6.3-14.4,14.2c-0.1,2.3,0.4,4.4,1.2,6.3c-2.8,2.9-4.7,6.7-4.7,10.9c0,9.8,8,17.8,17.8,17.8h49.9c9.8,0,17.8-8,17.8-17.8C371.6,55.6,359.7,46.7,345.1,40.1z'/%3E%3Cpath fill='%23ffffff' d='M185.1,150.1c-3.1-6.8-9.8-11.6-17.6-11.6c-7.1,0-13.4,3.8-16.7,9.5c-2.1-1.1-4.4-1.8-6.9-1.8c-7.9,0-14.3,6.3-14.4,14.2c-0.1,2.3,0.4,4.4,1.2,6.3c-2.8,2.9-4.7,6.7-4.7,10.9c0,9.8,8,17.8,17.8,17.8h49.9c9.8,0,17.8-8,17.8-17.8C211.6,165.6,199.7,156.7,185.1,150.1z'/%3E%3C/svg%3E"),
+                linear-gradient(to bottom, #87ceeb, #add8e6);
+            background-repeat: repeat;
+            color: var(--text-color);
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            transition: background-color 0.5s;
+        }
+        
+        h1 {
+            color: var(--pepe-green);
+            margin-bottom: 20px;
+            font-size: 2.5rem;
+            text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.2);
+            transform: rotate(-2deg);
+            animation: wiggle 10s ease-in-out infinite;
+        }
+        
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(-2deg); }
+            50% { transform: rotate(2deg); }
+        }
+        
+        #game-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        #stats {
+            display: flex;
+            justify-content: space-between;
+            background-image: var(--wood-image);
+            background-repeat: repeat-x;
+            background-size: auto 100%;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
+            border: 6px solid var(--panel-dark);
+            transform: rotate(1deg);
+            position: relative;
+            overflow: hidden;
+            color: var(--text-color);
+        }
+        
+        #stats:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(60, 30, 15, 0.2);
+            pointer-events: none;
+        }
+        
+        .stat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.3s;
+            background-color: transparent;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+        }
+        
+        .stat:hover {
+            transform: scale(1.05);
+        }
+        
+        .stat div {
+            color: #ffffff; /* Making sure all stat text is white */
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.9);
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ffffff; /* Pure white for maximum contrast */
+            text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.9);
+        }
+        
+        #pepe-button {
+            cursor: pointer;
+            background: none;
+            border: none;
+            transition: transform 0.1s;
+            max-width: 350px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        #pepe-button:after {
+            content: "";
+            position: absolute;
+        }
+        
+        #pepe-button:active {
+            transform: scale(0.95);
+        }
+        
+        #pepe-image {
+            width: 100%;
+            height: auto;
+            filter: drop-shadow(0 0 10px var(--pepe-green));
+            transition: all 0.3s;
+        }
+        
+        #pepe-image:hover {
+            filter: drop-shadow(0 0 15px var(--pepe-green)) brightness(1.1);
+        }
+        
+        #upgrades {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .upgrade {
+            background-image: var(--wood-image);
+            background-size: cover;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: left;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s;
+            border-left: 8px solid var(--panel-dark);
+            transform: rotate(0.5deg);
+            position: relative;
+            overflow: hidden;
+            color: var(--text-color);
+        }
+        
+        .upgrade:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(60, 30, 15, 0.2);
+            pointer-events: none;
+        }
+        
+        .upgrade:nth-child(even) {
+            transform: rotate(-0.5deg);
+        }
+        
+        .upgrade:hover {
+            transform: translateY(-5px) rotate(0);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .upgrade h3 {
+            color: #ffffff; /* Pure white for maximum contrast */
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+            text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.9);
+            font-weight: bold;
+        }
+        
+        .upgrade-info {
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            color: #ffffff; /* Pure white for maximum contrast */
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.9);
+        }
+        
+        .buy-button {
+            background-color: #5d4037; /* Dark brown */
+            color: #ffffff; /* Pure white text */
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3), inset 0 1px 2px rgba(255, 255, 255, 0.1);
+        }
+        
+        .buy-button:hover {
+            background-color: #4e342e; /* Very dark brown */
+            transform: translateY(-2px);
+            box-shadow: 0 5px 8px rgba(0, 0, 0, 0.4), inset 0 1px 2px rgba(255, 255, 255, 0.1);
+        }
+        
+        .buy-button:disabled {
+            background-color: #795548; /* Medium brown */
+            cursor: not-allowed;
+            opacity: 0.7;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        #reset-button {
+            background-color: #b71c1c; /* Darker red */
+            color: #ffffff; /* Pure white text */
+            border: 3px solid var(--panel-dark);
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 20px;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
+        }
+        
+        #reset-button:hover {
+            background-color: #f44336; /* Brighter red */
+            transform: scale(1.05);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+        }
+        
+        #reset-button:active {
+            transform: scale(0.95);
+        }
+        
+        #back-button {
+            background-color: #1565c0; /* Blue */
+            color: #ffffff; /* Pure white text */
+            border: 3px solid var(--panel-dark);
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            z-index: 1000;
+            margin-top: 0;
+        }
+        
+        #back-button:hover {
+            background-color: #2196f3; /* Brighter blue */
+            transform: scale(1.05);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+        }
+        
+        #back-button:active {
+            transform: scale(0.95);
+        }
+        
+        @media (max-width: 600px) {
+            #stats {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .stat {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+            
+            #upgrades {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Animation for clicking */
+        @keyframes pepeClick {
+            0% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(0.95) rotate(-5deg); }
+            100% { transform: scale(1) rotate(0deg); }
+        }
+        
+        .pepe-animation {
+            animation: pepeClick 0.2s ease;
+        }
+        
+        /* Floating pepe animation */
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            25% { transform: translateY(-10px) rotate(-2deg); }
+            50% { transform: translateY(0px) rotate(0deg); }
+            75% { transform: translateY(-5px) rotate(2deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+        
+        #pepe-button {
+            animation: float 4s ease-in-out infinite;
+        }
+        
+        /* Rainbow effect for high scores */
+        @keyframes rainbow {
+            0% { color: #ff0000; }
+            16.6% { color: #ff8000; }
+            33.3% { color: #ffff00; }
+            50% { color: #00ff00; }
+            66.6% { color: #0080ff; }
+            83.3% { color: #8000ff; }
+            100% { color: #ff0000; }
+        }
+        
+        .rainbow-text {
+            animation: rainbow 5s linear infinite;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        
+        /* Confetti animation */
+        @keyframes confetti {
+            0% { 
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% { 
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button id="back-button">Back to Menu</button>
+    <h1>Pepe Clicker</h1>
+    
+    <div id="game-container">
+        <div id="stats">
+            <div class="stat">
+                <div>Total Pepes</div>
+                <div id="pepe-count" class="stat-value">0</div>
+            </div>
+            <div class="stat">
+                <div>Pepes per Second</div>
+                <div id="pepes-per-second" class="stat-value">0</div>
+            </div>
+            <div class="stat">
+                <div>Click Power</div>
+                <div id="click-power" class="stat-value">1</div>
+            </div>
+        </div>
+        
+        <button id="pepe-button">
+            <img id="pepe-image" src="./img/normal-pepe.png" alt="Pepe" draggable="false" oncontextmenu="return false;" style="user-select: none; -webkit-user-drag: none;">
+        </button>
+        
+        <div id="upgrades">
+            <!-- Upgrades will be added dynamically -->
+        </div>
+        
+        <button id="reset-button">Reset Game</button>
+    </div>
+
+    <script>
+        // Game state
+        let gameState = {
+            pepes: 0,
+            pepesPerSecond: 0,
+            clickMultiplier: 1,
+            upgrades: [
+                { id: 'tiny', name: 'Tiny Pepe', cost: 10, baseCost: 10, income: 0.1, owned: 0, clickBonus: 0.2 },
+                { id: 'sad', name: 'Sad Pepe', cost: 100, baseCost: 100, income: 1, owned: 0, clickBonus: 1 },
+                { id: 'smug', name: 'Smug Pepe', cost: 1000, baseCost: 1000, income: 10, owned: 0, clickBonus: 5 },
+                { id: 'rare', name: 'Rare Pepe', cost: 10000, baseCost: 10000, income: 100, owned: 0, clickBonus: 25 },
+                { id: 'epic', name: 'Epic Pepe', cost: 100000, baseCost: 100000, income: 1000, owned: 0, clickBonus: 125 },
+                { id: 'legendary', name: 'Legendary Pepe', cost: 1000000, baseCost: 1000000, income: 10000, owned: 0, clickBonus: 500 }
+            ]
+        };
+        
+        // DOM elements
+        const pepeButton = document.getElementById('pepe-button');
+        const pepeCount = document.getElementById('pepe-count');
+        const pepesPerSecond = document.getElementById('pepes-per-second');
+        const clickPower = document.getElementById('click-power');
+        const upgradesContainer = document.getElementById('upgrades');
+        const resetButton = document.getElementById('reset-button');
+        const backButton = document.getElementById('back-button');
+        
+        // Initialize game
+        function initGame() {
+            // Try to load saved game
+            loadGame();
+            
+            // Ensure click multiplier is calculated
+            calculateClickMultiplier();
+            
+            // Render initial state
+            updateDisplay();
+            renderUpgrades();
+            
+            // Set up event listeners
+            pepeButton.addEventListener('click', clickPepe);
+            resetButton.addEventListener('click', resetGame);
+            backButton.addEventListener('click', backToMenu);
+            
+            // Start idle income
+            setInterval(idleIncome, 1000);
+            
+            // Save game periodically
+            setInterval(saveGame, 10000);
+            
+            // Add funny tooltips occasionally
+            setInterval(showRandomTip, 30000);
+        }
+        
+        // Click the Pepe
+        function clickPepe() {
+            const clickValue = gameState.clickMultiplier;
+            gameState.pepes += clickValue;
+            updateDisplay();
+            
+            // Add animation
+            const pepeImage = document.getElementById('pepe-image');
+            pepeImage.classList.add('pepe-animation');
+            setTimeout(() => {
+                pepeImage.classList.remove('pepe-animation');
+            }, 200);
+            
+            // Add floating text
+            createFloatingText(`+${formatNumber(clickValue)}`);
+        }
+        
+        // Create floating +1 text
+        function createFloatingText(text) {
+            const floatingText = document.createElement('div');
+            floatingText.textContent = text;
+            floatingText.style.position = 'absolute';
+            floatingText.style.color = 'white';
+            floatingText.style.fontSize = '1.5rem';
+            floatingText.style.fontWeight = 'bold';
+            floatingText.style.textShadow = '2px 2px 4px rgba(0, 0, 0, 0.5)';
+            floatingText.style.pointerEvents = 'none';
+            
+            // Position near the Pepe button
+            const buttonRect = pepeButton.getBoundingClientRect();
+            const x = buttonRect.left + Math.random() * buttonRect.width;
+            const y = buttonRect.top + Math.random() * 30;
+            
+            floatingText.style.left = `${x}px`;
+            floatingText.style.top = `${y}px`;
+            
+            // Animation
+            floatingText.style.transition = 'top 1s ease-out, opacity 1s ease-out';
+            document.body.appendChild(floatingText);
+            
+            // Start animation after a small delay
+            setTimeout(() => {
+                floatingText.style.top = `${y - 80}px`;
+                floatingText.style.opacity = '0';
+            }, 10);
+            
+            // Remove after animation completes
+            setTimeout(() => {
+                document.body.removeChild(floatingText);
+            }, 1000);
+        }
+        
+        // Idle income
+        function idleIncome() {
+            gameState.pepes += gameState.pepesPerSecond;
+            updateDisplay();
+        }
+        
+        // Update display
+        function updateDisplay() {
+            pepeCount.textContent = formatNumber(gameState.pepes);
+            pepesPerSecond.textContent = formatNumber(gameState.pepesPerSecond);
+            clickPower.textContent = formatNumber(gameState.clickMultiplier);
+            
+            // Add rainbow effect for high scores
+            if (gameState.pepes >= 1000000) {
+                pepeCount.classList.add('rainbow-text');
+            } else {
+                pepeCount.classList.remove('rainbow-text');
+            }
+            
+            if (gameState.pepesPerSecond >= 100) {
+                pepesPerSecond.classList.add('rainbow-text');
+            } else {
+                pepesPerSecond.classList.remove('rainbow-text');
+            }
+            
+            if (gameState.clickMultiplier >= 50) {
+                clickPower.classList.add('rainbow-text');
+            } else {
+                clickPower.classList.remove('rainbow-text');
+            }
+            
+            // Update upgrade buttons
+            gameState.upgrades.forEach(upgrade => {
+                const buyButton = document.getElementById(`buy-${upgrade.id}`);
+                if (buyButton) {
+                    buyButton.disabled = gameState.pepes < upgrade.cost;
+                }
+            });
+        }
+        
+        // Render upgrades
+        function renderUpgrades() {
+            upgradesContainer.innerHTML = '';
+            
+            gameState.upgrades.forEach(upgrade => {
+                const upgradeElement = document.createElement('div');
+                upgradeElement.className = 'upgrade';
+                
+                upgradeElement.innerHTML = `
+                    <h3>${upgrade.name}</h3>
+                    <div class="upgrade-info">
+                        <div>Cost: ${formatNumber(upgrade.cost)} Pepes</div>
+                        <div>Income: +${formatNumber(upgrade.income)} Pepes/sec</div>
+                        <div>Owned: ${upgrade.owned}</div>
+                    </div>
+                    <button id="buy-${upgrade.id}" class="buy-button" ${gameState.pepes < upgrade.cost ? 'disabled' : ''}>
+                        Buy
+                    </button>
+                `;
+                
+                upgradesContainer.appendChild(upgradeElement);
+                
+                // Add event listener to the buy button
+                document.getElementById(`buy-${upgrade.id}`).addEventListener('click', () => {
+                    buyUpgrade(upgrade);
+                });
+            });
+        }
+        
+        // Calculate total income per second
+        function calculateTotalIncome() {
+            gameState.pepesPerSecond = gameState.upgrades.reduce((total, upgrade) => {
+                return total + (upgrade.income * upgrade.owned);
+            }, 0);
+        }
+        
+        // Calculate total click multiplier
+        function calculateClickMultiplier() {
+            // Start with base value of 1
+            let multiplier = 1;
+            
+            // Add bonuses from upgrades
+            gameState.upgrades.forEach(upgrade => {
+                if (upgrade.owned > 0) {
+                    multiplier += upgrade.clickBonus * upgrade.owned;
+                }
+            });
+            
+            gameState.clickMultiplier = multiplier;
+        }
+        
+        // Buy upgrade
+        function buyUpgrade(upgrade) {
+            if (gameState.pepes >= upgrade.cost) {
+                gameState.pepes -= upgrade.cost;
+                upgrade.owned += 1;
+                
+                // Update cost (10% increase per purchase)
+                upgrade.cost = Math.round(upgrade.baseCost * Math.pow(1.15, upgrade.owned));
+                
+                // Update income
+                calculateTotalIncome();
+                
+                // Update click multiplier
+                calculateClickMultiplier();
+                
+                // Change Pepe image based on purchased upgrade
+                if (upgrade.owned === 1) {
+                    const pepeImage = document.getElementById('pepe-image');
+                    switch (upgrade.id) {
+                        case 'sad':
+                            pepeImage.src = './img/sad-pepe.png';
+                            break;
+                        case 'smug':
+                            pepeImage.src = './img/smug-pepe.png';
+                            break;
+                        case 'rare':
+                            pepeImage.src = './img/fire-pepe.jpg';
+                            break;
+                        case 'legendary':
+                            pepeImage.src = './img/legendary-pepe.png';
+                            createConfetti();
+                            break;
+                    }
+                }
+                
+                // Create confetti for expensive purchases
+                if (upgrade.cost > 10000) {
+                    createConfetti();
+                }
+                
+                // Update display
+                updateDisplay();
+                renderUpgrades();
+            }
+        }
+        
+        // Reset game
+        function resetGame() {
+            if (confirm('Are you sure you want to reset the game? All progress will be lost!')) {
+                gameState = {
+                    pepes: 0,
+                    pepesPerSecond: 0,
+                    clickMultiplier: 1,
+                    upgrades: gameState.upgrades.map(upgrade => ({
+                        ...upgrade,
+                        cost: upgrade.baseCost,
+                        owned: 0
+                    }))
+                };
+                
+                // Reset Pepe image to normal
+                const pepeImage = document.getElementById('pepe-image');
+                pepeImage.src = './img/normal-pepe.png';
+                
+                // Recalculate values after reset
+                calculateTotalIncome();
+                calculateClickMultiplier();
+                
+                updateDisplay();
+                renderUpgrades();
+                saveGame();
+            }
+        }
+        
+        // Save game to localStorage
+        function saveGame() {
+            localStorage.setItem('pepeClickerSave', JSON.stringify(gameState));
+        }
+        
+        // Load game from localStorage
+        function loadGame() {
+            const savedGame = localStorage.getItem('pepeClickerSave');
+            
+            if (savedGame) {
+                try {
+                    const parsedSave = JSON.parse(savedGame);
+                    
+                    // Validate the save data structure
+                    if (parsedSave && typeof parsedSave === 'object' && 
+                        'pepes' in parsedSave && 
+                        'pepesPerSecond' in parsedSave && 
+                        'upgrades' in parsedSave) {
+                        
+                        // Make sure all upgrades have clickBonus property
+                        const upgrades = parsedSave.upgrades.map((upgrade, index) => {
+                            // Ensure clickBonus exists on older saves
+                            if (!upgrade.hasOwnProperty('clickBonus')) {
+                                // Copy the clickBonus from the default upgrades
+                                upgrade.clickBonus = gameState.upgrades[index].clickBonus;
+                            }
+                            return upgrade;
+                        });
+                        
+                        gameState = {
+                            pepes: parsedSave.pepes || 0,
+                            pepesPerSecond: parsedSave.pepesPerSecond || 0,
+                            clickMultiplier: parsedSave.clickMultiplier || 1,
+                            upgrades: upgrades
+                        };
+                        
+                        // Recalculate values after loading
+                        calculateTotalIncome();
+                        calculateClickMultiplier();
+                        
+                        // Update Pepe image based on owned upgrades
+                        updatePepeImage();
+                    }
+                } catch (e) {
+                    console.error('Error loading save data:', e);
+                }
+            }
+        }
+        
+        // Update Pepe image based on owned upgrades
+        function updatePepeImage() {
+            const pepeImage = document.getElementById('pepe-image');
+            
+            // Check which high-tier Pepes are owned and set the appropriate image
+            // Priority: legendary > rare > smug > sad > normal
+            if (gameState.upgrades.find(u => u.id === 'legendary' && u.owned > 0)) {
+                pepeImage.src = './img/legendary-pepe.png';
+            } else if (gameState.upgrades.find(u => u.id === 'rare' && u.owned > 0)) {
+                pepeImage.src = './img/fire-pepe.jpg';
+            } else if (gameState.upgrades.find(u => u.id === 'smug' && u.owned > 0)) {
+                pepeImage.src = './img/smug-pepe.png';
+            } else if (gameState.upgrades.find(u => u.id === 'sad' && u.owned > 0)) {
+                pepeImage.src = './img/sad-pepe.png';
+            } else {
+                pepeImage.src = './img/normal-pepe.png';
+            }
+        }
+        
+        // Format large numbers
+        function formatNumber(num) {
+            if (num >= 1000000) {
+                return (num / 1000000).toFixed(2) + 'M';
+            } else if (num >= 1000) {
+                return (num / 1000).toFixed(2) + 'K';
+            } else if (Number.isInteger(num)) {
+                return num.toString();
+            } else {
+                return num.toFixed(1);
+            }
+        }
+        
+        // Create confetti
+        function createConfetti() {
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.style.position = 'absolute';
+                confetti.style.width = Math.random() * 10 + 5 + 'px';
+                confetti.style.height = Math.random() * 10 + 5 + 'px';
+                confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                confetti.style.borderRadius = '50%';
+                confetti.style.pointerEvents = 'none';
+                confetti.style.zIndex = '100';
+                
+                // Position randomly on screen
+                confetti.style.left = Math.random() * window.innerWidth + 'px';
+                confetti.style.top = -20 + 'px';
+                
+                // Animation
+                const animationDuration = Math.random() * 3 + 2; // 2-5 seconds
+                confetti.style.animation = `confetti ${animationDuration}s ease forwards`;
+                
+                document.body.appendChild(confetti);
+                
+                // Remove after animation completes
+                setTimeout(() => {
+                    document.body.removeChild(confetti);
+                }, animationDuration * 1000);
+            }
+        }
+        
+        // Show random funny tips
+        function showRandomTip() {
+            const tips = [
+                "Pro tip: Click faster for more Pepes!",
+                "Legend says if you get 1 million Pepes, you'll become a meme lord.",
+                "Pepe fact: Pepes reproduce asexually through clicking.",
+                "Did you know? Each Pepe consumed generates energy for more Pepes!",
+                "Warning: Excessive Pepe collecting may result in meme addiction.",
+                "Pepe science: 1 Legendary Pepe = 10,000 normal Pepes compressed.",
+                "Try clicking with your nose for secret bonus Pepes!",
+                "The FBI is monitoring unusual Pepe activity. Stay safe."
+            ];
+            
+            const tip = tips[Math.floor(Math.random() * tips.length)];
+            
+            const tipElement = document.createElement('div');
+            tipElement.textContent = tip;
+            tipElement.style.position = 'fixed';
+            tipElement.style.bottom = '20px';
+            tipElement.style.right = '20px';
+            tipElement.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
+            tipElement.style.color = '#fff';
+            tipElement.style.padding = '10px 15px';
+            tipElement.style.borderRadius = '5px';
+            tipElement.style.maxWidth = '250px';
+            tipElement.style.zIndex = '1000';
+            tipElement.style.boxShadow = '0 3px 10px rgba(0, 0, 0, 0.2)';
+            tipElement.style.animation = 'fadeInOut 5s forwards';
+            
+            const tipStyle = document.createElement('style');
+            tipStyle.innerHTML = `
+                @keyframes fadeInOut {
+                    0% { opacity: 0; transform: translateY(20px); }
+                    10% { opacity: 1; transform: translateY(0); }
+                    80% { opacity: 1; transform: translateY(0); }
+                    100% { opacity: 0; transform: translateY(-20px); }
+                }
+            `;
+            document.head.appendChild(tipStyle);
+            
+            document.body.appendChild(tipElement);
+            
+            // Remove after animation completes
+            setTimeout(() => {
+                document.body.removeChild(tipElement);
+            }, 5000);
+        }
+        
+        // Back to menu
+        function backToMenu() {
+            // Save game state before leaving
+            saveGame();
+            // Redirect to game menu
+            window.location.href = './game-menu.html';
+        }
+        
+        // Initialize game when page loads
+        window.addEventListener('load', initGame);
+    </script>
+</body>
+</html> 

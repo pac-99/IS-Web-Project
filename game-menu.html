@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frog Games Menu</title>
+    <link rel="icon" href="./img/normal-pepe.png" type="image/png">
+    <style>
+        body, html, * {
+            cursor: url('./img/funny-pac-small.png'), pointer !important;
+        }
+        
+        :root {
+            --main-bg-color: #5fa8d3; /* Lighter blue */
+            --panel-dark: #4e342e; /* Very dark wood */
+            --wood-image: url('./img/wood.jpg');
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background-color: #87ceeb;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='500' height='300' viewBox='0 0 500 300'%3E%3Cpath fill='%23ffffff' d='M105.1,70.1c-3.1-6.8-9.8-11.6-17.6-11.6c-7.1,0-13.4,3.8-16.7,9.5c-2.1-1.1-4.4-1.8-6.9-1.8c-7.9,0-14.3,6.3-14.4,14.2c-0.1,2.3,0.4,4.4,1.2,6.3C47.9,89.6,46,93.4,46,97.6c0,9.8,8,17.8,17.8,17.8h49.9c9.8,0,17.8-8,17.8-17.8C131.6,85.6,119.7,76.7,105.1,70.1z'/%3E%3Cpath fill='%23ffffff' d='M425.1,210.1c-3.1-6.8-9.8-11.6-17.6-11.6c-7.1,0-13.4,3.8-16.7,9.5c-2.1-1.1-4.4-1.8-6.9-1.8c-7.9,0-14.3,6.3-14.4,14.2c-0.1,2.3,0.4,4.4,1.2,6.3c-2.8,2.9-4.7,6.7-4.7,10.9c0,9.8,8,17.8,17.8,17.8h49.9c9.8,0,17.8-8,17.8-17.8C451.6,225.6,439.7,216.7,425.1,210.1z'/%3E%3Cpath fill='%23ffffff' d='M345.1,40.1c-3.1-6.8-9.8-11.6-17.6-11.6c-7.1,0-13.4,3.8-16.7,9.5c-2.1-1.1-4.4-1.8-6.9-1.8c-7.9,0-14.3,6.3-14.4,14.2c-0.1,2.3,0.4,4.4,1.2,6.3c-2.8,2.9-4.7,6.7-4.7,10.9c0,9.8,8,17.8,17.8,17.8h49.9c9.8,0,17.8-8,17.8-17.8C371.6,55.6,359.7,46.7,345.1,40.1z'/%3E%3Cpath fill='%23ffffff' d='M185.1,150.1c-3.1-6.8-9.8-11.6-17.6-11.6c-7.1,0-13.4,3.8-16.7,9.5c-2.1-1.1-4.4-1.8-6.9-1.8c-7.9,0-14.3,6.3-14.4,14.2c-0.1,2.3,0.4,4.4,1.2,6.3c-2.8,2.9-4.7,6.7-4.7,10.9c0,9.8,8,17.8,17.8,17.8h49.9c9.8,0,17.8-8,17.8-17.8C211.6,165.6,199.7,156.7,185.1,150.1z'/%3E%3C/svg%3E"),
+                linear-gradient(to bottom, #87ceeb, #add8e6);
+            background-repeat: repeat;
+            color: #ffffff;
+            padding: 20px;
+            min-height: 100vh;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        h1 {
+            color: #ffffff;
+            margin-bottom: 40px;
+            font-size: 4rem;
+            text-shadow: 
+                3px 3px 0 #000,
+                -1px -1px 0 #000,
+                1px -1px 0 #000,
+                -1px 1px 0 #000,
+                1px 1px 0 #000;
+            background-image: var(--wood-image);
+            background-repeat: repeat;
+            padding: 20px 40px;
+            border-radius: 15px;
+            border: 6px solid #8d6e63;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+            display: inline-block;
+            letter-spacing: 2px;
+            font-family: 'Comic Sans MS', 'Chalkboard SE', cursive;
+        }
+        
+        h1:before {
+            display: none;
+        }
+        
+        @keyframes titleFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(0); }
+        }
+        
+        @keyframes titleGlow {
+            0% { text-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; }
+            100% { text-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; }
+        }
+        
+        @keyframes shiny {
+            0% { left: -50%; }
+            100% { left: -50%; }
+        }
+        
+        .logo-text {
+            display: inline-block;
+            animation: none;
+        }
+        
+        @keyframes wobble {
+            0%, 100% { transform: translateY(0); }
+            25% { transform: translateY(0); }
+            75% { transform: translateY(0); }
+        }
+        
+        .game-container {
+            display: flex;
+            gap: 40px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        
+        .game-card {
+            background-image: var(--wood-image);
+            background-repeat: repeat-x;
+            background-size: auto 100%;
+            width: 300px;
+            height: 400px;
+            border-radius: 15px;
+            border: 6px solid var(--panel-dark);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .game-card:before {
+            display: none;
+        }
+        
+        .game-card:hover {
+            transform: translateY(-15px) scale(1.03);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.7);
+        }
+        
+        .game-title {
+            color: #ffffff;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.9);
+            font-weight: bold;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .game-image {
+            width: 200px;
+            height: 200px;
+            object-fit: contain;
+            border-radius: 10px;
+            background-color: transparent;
+            padding: 10px;
+            margin: 10px 0;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .play-button {
+            background-color: #5d4037;
+            color: #ffffff;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.2rem;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+            text-decoration: none;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .play-button:hover {
+            background-color: #4e342e;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
+        }
+        
+        footer {
+            margin-top: 60px;
+            color: #ffffff;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+        }
+        
+        .back-button {
+            background-color: #1565c0;
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            z-index: 1000;
+            text-decoration: none;
+        }
+        
+        .back-button:hover {
+            background-color: #2196f3;
+            transform: scale(1.05);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <a href="scratch.html" class="back-button">Back to Scratch</a>
+    
+    <h1>
+        <span class="logo-text" style="--i:1;">F</span>
+        <span class="logo-text" style="--i:2;">r</span>
+        <span class="logo-text" style="--i:3;">o</span>
+        <span class="logo-text" style="--i:4;">g</span>
+        <span class="logo-text" style="--i:5;">&nbsp;</span>
+        <span class="logo-text" style="--i:6;">G</span>
+        <span class="logo-text" style="--i:7;">a</span>
+        <span class="logo-text" style="--i:8;">m</span>
+        <span class="logo-text" style="--i:9;">e</span>
+        <span class="logo-text" style="--i:10;">s</span>
+    </h1>
+    
+    <div class="game-container">
+        <div class="game-card">
+            <h2 class="game-title">Pepe Clicker</h2>
+            <img src="./img/normal-pepe.png" alt="Pepe Clicker" class="game-image">
+            <p style="color: #ffffff; position: relative; z-index: 2;">Click Pepes and build your empire!</p>
+            <a href="pepe-clicker.html" class="play-button">Play Now</a>
+        </div>
+        
+        <div class="game-card">
+            <h2 class="game-title">Witch Frog Flap</h2>
+            <img src="./img/witch-frog.png" alt="Witch Frog Flap" class="game-image">
+            <p style="color: #ffffff; position: relative; z-index: 2;">Flap through obstacles with your witch powers!</p>
+            <a href="flappy-bird.html" class="play-button">Play Now</a>
+        </div>
+    </div>
+    
+    <footer>
+        <p>© 2025 Frog Games - All Rights Reserved</p>
+    </footer>
+</body>
+</html> 

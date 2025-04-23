@@ -1,0 +1,199 @@
+/* Custom CSS for Scratch Page */
+
+/* Rule 1: Body styling with custom background */
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #e6f7ff;
+    margin: 0;
+    padding: 0;
+}
+
+/* Rule 2: Header styling */
+.header {
+    background-color: #2c3e50;
+    color: white;
+    text-align: center;
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.header p {
+    font-size: 1.2rem;
+    opacity: 0.8;
+}
+
+/* Home link styling */
+.home-link {
+    margin-top: 1rem;
+}
+
+.home-link a {
+    color: white;
+    text-decoration: none;
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.home-link a:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Rule 3: Content container styling */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.section {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+    padding: 2rem;
+}
+
+.section h2 {
+    color: #2c3e50;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Rule 4: List styling */
+.hobby-list {
+    padding-left: 1.5rem;
+}
+
+.hobby-list li {
+    margin-bottom: 0.5rem;
+}
+
+.sub-list {
+    margin-top: 0.5rem;
+    padding-left: 1.5rem;
+}
+
+.sub-list li {
+    margin-bottom: 0.3rem;
+    list-style-type: circle;
+}
+
+/* Rule 5: Image styling */
+.img-container {
+    text-align: center;
+    margin: 1.5rem 0;
+}
+
+.img-hobby {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    border: 3px solid #3498db;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Rule 6: Video container styling */
+.video-container {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    height: 0;
+    margin: 1.5rem 0;
+}
+
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Rule 7: Navigation styling */
+.nav-links {
+    display: flex;
+    justify-content: center;
+    margin: 2rem 0;
+}
+
+.btn {
+    display: inline-block;
+    background-color: #3498db;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    text-decoration: none;
+    border-radius: 4px;
+    margin: 0 0.5rem;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #2980b9;
+}
+
+/* Rule 8: Back to top button */
+.back-to-top {
+    display: block;
+    text-align: center;
+    margin: 2rem 0;
+}
+
+.back-to-top a {
+    color: #3498db;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.back-to-top a:hover {
+    color: #2980b9;
+}
+
+/* Rule 9: Footer styling */
+.footer {
+    background-color: #2c3e50;
+    color: white;
+    text-align: center;
+    padding: 1.5rem;
+    margin-top: 2rem;
+}
+
+/* Rule 10: Tableau container */
+.tableau-container {
+    width: 100%;
+    height: 800px;
+    margin: 2rem 0;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+    .header h1 {
+        font-size: 2rem;
+    }
+    
+    .header p {
+        font-size: 1rem;
+    }
+    
+    .section {
+        padding: 1.5rem;
+    }
+    
+    .tableau-container {
+        height: 600px;
+    }
+} 
